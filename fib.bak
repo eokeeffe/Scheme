@@ -1,0 +1,11 @@
+#lang racket
+(define fb(lambda(count a b L)(cond
+                          ((= count 0) L)
+                          (else
+                           (fb (- count 1) (car (reverse L)) (car (cdr (reverse L)))
+                               (append (+ a b) L))))))
+
+(define fibonacci(lambda(count)(cond
+                                 ((< count 0) 0)
+                                 ((= count 1) 0)
+                                 ((= count 2) '(0 1))

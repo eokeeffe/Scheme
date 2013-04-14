@@ -1,0 +1,101 @@
+Question 1:Parity
+
+(define L '(1 1 1))
+(define L2'(1 0 1))
+;simply count the number of ones in the list
+(define count1(lambda(l)(cond
+                             ((null? l) 0)
+                             ((= (car l) 1) (+ 1 (count1(cdr l))))
+                             (else (count1(cdr l))))
+                             ))
+
+;just to replace my beloved modulo operator
+(define %(lambda(x y)(modulo x y)))
+;parity recursive function 
+(define parity(lambda(l)(cond
+                          ((= (% (count1 l) 2) 0) 0)
+                          (else 1)
+                          )))
+(parity L)
+(parity L2)
+
+
+Question 2:FizzBuzz
+
+
+;define the number of elements to create
+(define NumberOfElements 45)
+
+;first condition where the number is divisible by 3 and 5 , so append FizzBuzz and add 1 to counter
+(define cond1(lambda(a L i)(fb (+ a 1) (append L (list 'FizzBuzz)) i)))
+;second condition where the number is divisible by 3 , so append Fizz and add 1 to counter
+(define cond2(lambda(a L i)(fb (+ a 1) (append L (list 'Fizz)) i)))
+;second condition where the number is divisible by 5 , so append Buzz and add 1 to counter
+(define cond3(lambda(a L i)(fb (+ a 1) (append L (list 'Buzz)) i)))
+
+;Main Function Loop
+(define fb(lambda(a L i)(cond
+                          ;while a is less than or equal to i
+                        ((<= a i) (cond
+                                   ((and (= (remainder a 3) 0) (= (remainder a 5) 0)) (cond1 a L i));condition 1 helper function
+                                   ((= (remainder a 3) 0) (cond2 a L i));condition 2 helper function
+                                   ((= (remainder a 5) 0) (cond3 a L i));condition 3 helper function
+                                   (else (fb (+ a 1) (append L (list a)) i));else just append the number and add 1 to counter
+                                    ))
+                        (else L);return the list
+                        )))
+
+(define FizzBuzz(lambda(i)(fb 1 '() i)));call the main loop function , start the counter at 1 , place an empty list into it and give i to it
+
+(FizzBuzz NumberOfElements);call the function , happy Days it works :-)
+
+
+Question 3:Fibonacci
+
+;function tested to N=50 , after that was painfull to compare values
+;define how many Fibonacci numbers your looking for
+(define NumberOfElements 20)
+
+;this is the Fn-1 or the last element of the list
+(define FindLast(lambda(L)(cond
+                            ((null? L) '())
+                            ((null? (cdr L)) (car L))
+                            (else (FindLast (cdr L)))
+                            )))
+;this is the Fn-2 or the second last element of the list
+(define FindSecondLast(lambda(L)(cond
+                            ((null? L) '())
+                            ((null? (cdr (cdr L))) (car L))
+                            (else (FindSecondLast (cdr L)))
+                            )))
+;remove the last element, due to n+1 error of my loop
+(define removeLast(lambda(L)(cond
+                              ((null? (cdr L)) '())
+                              (else (cons (car L) (removeLast (cdr L)))))))
+
+
+;main loop function that will get the list fibonacci numbers
+(define fib(lambda(a L x)(cond
+                           ((= x 0) '(0));return simple list
+                           ((= x 1) L);return the list from first function
+                           
+                           ;while a < x , recusively call fib with incremented a , append the sum
+                           ;of last and secondlast to the list and pass x too
+                           
+                           ((< a x) (fib (+ a 1) (append L (list (+ (FindLast L) (FindSecondLast L)))) x))
+                           
+                           ;return the list less the last element , due to n+1 error on my behalf
+                           
+                           (else (removeLast L))
+                           )))
+
+(define Fibonacci(lambda(x)( fib 0 '(0 1) x)))
+
+(Fibonacci NumberOfElements)
+
+;Efficency of algorithm
+;FindLast = O(N)
+;FindSeconLast = O(N-1)
+;removeLast = O(N)
+;N+N-1+N= 3N-1 = O(N)
+;algorithm is simple O(N) standard

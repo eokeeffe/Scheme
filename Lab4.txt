@@ -1,0 +1,50 @@
+(define L '(1 -2 3 -4 5))
+
+;base case is the list empty
+;Recursive Condition
+;construct a list of the the each element in the list being passed to
+;the function 
+;to the rest of the elements of the list going through the function
+
+(define mapTo(lambda(fn L)(cond
+                            ((null? L) L)
+                            (else (cons (fn (car L)) (mapTo fn (cdr L))))
+                            )))
+
+(mapTo abs L)
+(mapTo list '(a b c d))
+
+___________________________________________________________________________
+
+;insert an element at rank i of a list and return the list
+
+(define countlist(lambda(L)(cond 
+                             ((null? L) 0)
+                             ((null? (cdr L)) 1)
+                             (else (+ 1 (countlist (cdr L))))
+                             )))
+
+(define insertRank(lambda(a inc cnt L)(cond
+                                ((null? L) '())
+                                ((= cnt inc) (append (cons a (list (car L))) (insertRank a (- inc 1) (+ cnt 1) (cdr L))) )
+                                (else
+                                 (cons (car L) (insertRank a inc (+ cnt 1) (cdr L) )))
+                                )))
+;(insertRank 'x 0 0 '(a b c))
+
+;Base case : is the list empty , return a list containing A
+
+;Recursive case : construct a list of lists
+;that have the element A inserted at rank i
+;where i is incremented for each list
+
+(define AllInsertionsH(lambda(A L Place)(cond
+                                   ((null? L) (list A))
+                                   ((not (> Place (countlist L))) (cons (insertRank A Place 0 L) (insertRank A (+ Place 1) 0 L))))))
+                                   ;(else
+                                   ; (cons (insertRank A Place 0 L) (insertRank A (+ Place 1) 0 L)))
+                                   ;)))
+
+(define AllInsertions(lambda(A L)(AllInsertionsH A L 0)))
+
+(AllInsertions 'x '(a b c))

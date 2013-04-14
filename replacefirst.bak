@@ -1,0 +1,7 @@
+#lang racket
+
+(define replaceFirst(lambda(X Y L)(cond
+                                    ((null? L) '())
+                                    ((null? (cdr L))(cond
+                                                      ((= X (car L)) '(Y))
+                                                      (else '(X))))

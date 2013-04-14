@@ -1,0 +1,4 @@
+(define L '(a b c d a b cd e))
+
+(define removeElement(lambda(a b c d)(cond
+	

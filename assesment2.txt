@@ -1,0 +1,54 @@
+question 1.
+
+;list = 1 2 3 4 5 6 7 8 9
+;muliply each element by itself a= (* (car l) (car l))
+;construct a list of the squares cons a b
+;b= recusive function of the shortened list i.e (squarelist(cdr l))
+
+(define a '(1 2 3 4 5 6 7 8 9))
+;so this function will make a list that will square
+;the numbers of the list passed into it
+;and return the list of each number squared
+(define squarelist(lambda(l)(cond
+                              ((null? l) l)
+                              (else
+                                (cons (* (car l) (car l)) (squarelist(cdr l))
+                                      )))))
+(squarelist a)
+
+question 2.
+
+;list = 1 2 3 4 5
+;first condition to check if list is empty
+;next condition is to check if list has only 1 element
+;build a list of the addition of the current first element to the next element
+;only want every second element = (cdr (cdr list))
+
+(define a '(1 2 3 4 5))
+(define addpairs(lambda(l)(
+                           cond
+                            ((null? l) l);is the list empty
+                            ((null? (cdr l)) l);so while the next element isn't empty
+                            (else (cons (+ (car l) (car (cdr l))) (addpairs(cdr (cdr l)))))
+                            )));build a list of the addition of a + b by
+;recursing through the list 2 at a time ( cdr will return list-1 , so 
+;cdr (cdr x) is equal to the list minus 2 elements)
+(addpairs a)
+
+question 3.
+
+;list = 1 2 3 4 1 6
+;check if the list is null (null? l)
+;check if the condition is null (null? x)
+;check if the current first element is equal to the condition, if so then skip this element
+;else construct a list of every element that isn't the condition
+
+(define a '(1 2 3 4 1 6))
+(define myremove(lambda(x l)(cond
+                            ((null? l) l)
+                            ((null? x) l)
+                            ((eq? x (car l)) (myremove x (cdr l)) )
+                            (else 
+                             (cons (car l) (myremove x (cdr l))))
+                            )))
+(myremove 1 a)

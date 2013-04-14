@@ -1,0 +1,16 @@
+#lang racket
+(define (print-spaced . args)
+  (for-each
+    (lambda (x) (display x) (display " "))
+    args))
+ 
+(define (print-names title . names)
+  (display "This is the list of ")
+  (display title)
+  (display " names:")
+  (newline)
+  (for-each
+    (lambda (x) (display "Name: ") (display x) (newline))
+    names))
+ 
+;(print-spaced 1 2 "three")

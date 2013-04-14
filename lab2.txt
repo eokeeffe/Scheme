@@ -1,0 +1,50 @@
+Q1:
+(define l '(a b b c d d c c))
+
+(define getFirst(lambda(a)( car a)))
+(define getSecond(lambda(a)( cadr a)))
+
+(define countConsecutive(lambda(a)(
+                                   cond
+                                    ((null? a) 0)
+                                    ((null? (cdr a)) 0)
+                                    (else
+                                     (cond 
+                                       (
+                                        (not(eq? (getFirst a) (getSecond a)) countConsecutive(cdr a))
+                                        ((eq? (getFirst a) (getSecond a)) (+ 1 countConsecutive(cdr a))
+                                    )))))))
+(countConsecutive l)
+
+Q2:
+
+(define l '( (one two) a (pot kettle black)))
+
+;(define fl(lambda(a)(car a)))
+
+(define flatten(lambda(a)(cond
+                           ((null? a) '())
+                           (else
+                            (cond 
+                              ((list? (car a)) (append (car a) (list (car(cdr  a)))))
+                            (else (append (car a) (list (cdr  a))))
+                            )))))
+
+(flatten l)
+
+Q3:
+(define l '(a b c d e f g))
+                          
+(define locate(lambda(A L)(
+                         cond 
+                          ((null? L) 0)
+                          ((eq? A (car L)) (+ 1(locate A (cdr L))))
+                          (else (+ 1(locate (cdr L)))))))
+                           
+
+;(define locations(lambda(A L)(cond
+;                               ((null? L) '())
+;                               (else
+;                                (+ 1 locate
+                                
+(locate 'b l)
